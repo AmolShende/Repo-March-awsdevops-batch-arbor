@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myrs
+  labels:
+    app: myrs           # This is label on RS
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:     # Selector label. Selects POD with app: myapp lable But not select pod with env: dev
+    matchExpressions:
+    - key: app
+      operator: In
+      values: [myapp]
+    - key: env
+      operator: NotIn
+      values: [dev]
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: con1
+        image: nginx:latest
+        ports:
+        - containerPort: 80

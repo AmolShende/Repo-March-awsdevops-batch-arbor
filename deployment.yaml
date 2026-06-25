@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment               # This is Deployment object
+metadata:
+  name: mydep
+  labels:
+    app: mydep                 # Label on Deployment
+spec:
+  replicas: 3                  # Managing 3 replicas
+  selector:                    # This Deployment manages POD with label as app: myapp
+    matchLabels:
+      app: mydep
+  template:                    # Defination to create POD
+    metadata:
+      labels:
+        app: mydep                
+    spec:
+      containers:
+      - name: con1
+        image: nginx:latest
+        ports:
+        - containerPort: 80
