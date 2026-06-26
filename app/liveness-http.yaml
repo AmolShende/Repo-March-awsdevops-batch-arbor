@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deplivhttp   # name of Deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: mango                # Deployment will manage POD with given label
+  template:
+    metadata:
+      labels:
+        app: mango             # This label will get applied on POD
+    spec:
+      containers:
+      - name: con1
+        image: nginx
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /i88ndex.html  
+            port: 80
+          initialDelaySeconds: 10       #Intail Delay of 10 sec. Application may require some time to start
+          periodSeconds: 5              # Will check after every 5 sec
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mydep-svc
+spec:
+  type: NodePort
+  selector:
+    app: mango
+  ports:
+  - port: 80
+    protocol: TCP
+    nodePort: 30123
