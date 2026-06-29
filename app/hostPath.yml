@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myhostpath
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mydep
+  template:
+    metadata:
+      labels:
+        app: mydep
+    spec:
+      containers:
+      - name: con1
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:                  # Hostpath volume used inside container con1 Path = /data
+        - name: myvol
+          mountPath: /data
+      volumes:                         # Volume define of hostPath , name is myvol. Data path on local /mypath
+      - name: myvol
+        hostPath:
+          path: /mypath

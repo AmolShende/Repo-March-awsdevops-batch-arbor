@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod                     # Pod object creation
+metadata:
+  name: mypod                 # Pod name
+  labels:
+    app: myapp                # Label on Pod
+spec:
+  containers:
+  - name: con1                # con1 of nginx inside Pod
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+    volumeMounts:             # We have access emptyDir volume insider con1 container
+    - name: myvol
+      mountPath: /data
+  - name: con2
+    image: tomcat:latest
+    ports:
+    - containerPort: 8080
+    volumeMounts:             # We have accesses emptyDir volume inside con2 container.
+    - name: myvol
+      mountPath: /path
+  volumes:                    # Defination of emptyDir volume named :- myvol
+  - name: myvol
+    emptyDir: {}
