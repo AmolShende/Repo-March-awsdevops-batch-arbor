@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod1                        #Pod Name
+spec:
+  containers:
+  - name: con1                        # One container inside Pod
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+    volumeMounts:                     # Accessed volume inside POD
+    - mountPath: /path1
+      name: myvol
+
+  volumes:                           # Define volume type is PVC
+    - name: myvol
+      persistentVolumeClaim:
+        claimName: mypvc
+
+
